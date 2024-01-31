@@ -1,0 +1,25 @@
+---
+
+- include_tasks: 
+    file: gather_network_facts.yml
+    apply:
+      tags: always,gather_network_facts
+  tags: always,gather_network_facts
+
+- include_tasks: 
+    file: init_swarm.yml
+    apply:
+      tags: always,init_swarm
+  tags: always,init_swarm
+
+- include_tasks: 
+    file: join_manager_node.yml
+    apply:
+      tags: join_manager_node
+  tags: join_manager_node
+
+- include_tasks: 
+    file: join_worker_node.yml
+    apply:
+      tags: join_worker_node
+  tags: join_worker_node

@@ -1,0 +1,15 @@
+---
+dependencies: []
+
+galaxy_info:
+  description: 'Install and configure a docker swarm cluster'
+  platforms:
+    - name: Ubuntu
+      versions:
+        - jammy
+  galaxy_tags:
+    - docker
+    - swarm
+    - cluster
+    - multinode
+    - infrastructure

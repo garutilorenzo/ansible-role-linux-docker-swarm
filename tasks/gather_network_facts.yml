@@ -1,0 +1,37 @@
+---
+
+- name: "Set swarm_iface default:"
+  ansible.builtin.set_fact:
+    swarm_iface: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['interface'] }}"
+  when:
+    - docker_subnet is not defined
+
+- name: "Set swarm_ip_address default:"
+  ansible.builtin.set_fact:
+    swarm_ip_address: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+  when: 
+   - docker_subnet is not defined
+
+- name: "Set swarm_iface fact with docker_subnet network:"
+  ansible.builtin.set_fact:
+    swarm_iface: "{{ hostvars[inventory_hostname]['ansible_' + item ]['device'] }}"
+  when: 
+   - docker_subnet is defined
+   - "hostvars[inventory_hostname]['ansible_' + item ].ipv4 is defined and hostvars[inventory_hostname]['ansible_' + item ]['ipv4']['address'] | ipaddr( docker_subnet )"
+  with_items: "{{ ansible_interfaces }}"
+
+- name: "Set swarm_ip_address fact with docker_subnet network:"
+  ansible.builtin.set_fact:
+    swarm_ip_address: "{{ hostvars[inventory_hostname]['ansible_' + item ]['ipv4']['address'] }}"
+  when: 
+   - docker_subnet is defined
+   - "hostvars[inventory_hostname]['ansible_' + item ].ipv4 is defined and hostvars[inventory_hostname]['ansible_' + item ]['ipv4']['address'] | ipaddr( docker_subnet )"
+  with_items: "{{ ansible_interfaces }}"
+
+- ansible.builtin.debug:
+    msg: "Swarm iface: {{ swarm_iface }}"
+  when: debug_enabled is defined and debug_enabled
+
+- ansible.builtin.debug:
+    msg: "Swarm iface: {{ swarm_ip_address }}"
+  when: debug_enabled is defined and debug_enabled
