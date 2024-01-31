@@ -1,11 +1,11 @@
-[![GitHub issues](https://img.shields.io/github/issues/garutilorenzo/ansible-role-linux-swarm)](https://github.com/garutilorenzo/ansible-role-linux-swarm/issues)
-![GitHub](https://img.shields.io/github/license/garutilorenzo/ansible-role-linux-swarm)
-[![GitHub forks](https://img.shields.io/github/forks/garutilorenzo/ansible-role-linux-swarm)](https://github.com/garutilorenzo/ansible-role-linux-swarm/network)
-[![GitHub stars](https://img.shields.io/github/stars/garutilorenzo/ansible-role-linux-swarm)](https://github.com/garutilorenzo/ansible-role-linux-swarm/stargazers)
+[![GitHub issues](https://img.shields.io/github/issues/garutilorenzo/ansible-role-linux-docker-swarm)](https://github.com/garutilorenzo/ansible-role-linux-docker-swarm/issues)
+![GitHub](https://img.shields.io/github/license/garutilorenzo/ansible-role-linux-docker-swarm)
+[![GitHub forks](https://img.shields.io/github/forks/garutilorenzo/ansible-role-linux-docker-swarm)](https://github.com/garutilorenzo/ansible-role-linux-docker-swarm/network)
+[![GitHub stars](https://img.shields.io/github/stars/garutilorenzo/ansible-role-linux-docker-swarm)](https://github.com/garutilorenzo/ansible-role-linux-docker-swarm/stargazers)
 
-# Install and configure docker daemon on Linux
+# Install and configure docker swarm cluster on Linux
 
-Ansible role used to install docker daemon on Linux boxes
+Ansible role used to install and configure docker swarm cluster on Linux boxes
 
 ## Requirements
 
@@ -18,7 +18,7 @@ pip install -r requirements.txt
 Download the role form GitHub:
 
 ```
-ansible-galaxy install git+https://github.com/garutilorenzo/ansible-role-linux-swarm.git
+ansible-galaxy install git+https://github.com/garutilorenzo/ansible-role-linux-docker-swarm.git
 ```
 
 Your inventory file must have the following groups:
@@ -58,7 +58,7 @@ Here one example playbook:
   remote_user: vagrant
   tasks:
     - ansible.builtin.import_role:
-        name: ansible-role-linux-swarm
+        name: ansible-role-linux-docker-swarm
         tasks_from: gather_network_facts
 
 - hosts: swarm_managers[0]
@@ -66,7 +66,7 @@ Here one example playbook:
   remote_user: vagrant
   tasks:
     - ansible.builtin.import_role:
-        name: ansible-role-linux-swarm
+        name: ansible-role-linux-docker-swarm
         tasks_from: init_swarm
 
 - hosts: swarm_managers[1:]
@@ -74,7 +74,7 @@ Here one example playbook:
   remote_user: vagrant
   tasks:
     - ansible.builtin.import_role:
-        name: ansible-role-linux-swarm
+        name: ansible-role-linux-docker-swarm
         tasks_from: join_manager_node
 
 - hosts: swarm_workers
@@ -82,6 +82,6 @@ Here one example playbook:
   remote_user: vagrant
   tasks:
     - ansible.builtin.import_role:
-        name: ansible-role-linux-swarm
+        name: ansible-role-linux-docker-swarm
         tasks_from: join_worker_node
 ```
